@@ -1,7 +1,7 @@
 class Application
 
   @@items = ["Apples","Carrots","Pears"]
-  @@cart = []
+  @@cart = @@items
 
   def call(env)
     resp = Rack::Response.new
@@ -12,9 +12,11 @@ class Application
         resp.write "#{item}\n"
       end
     elsif req.path.match(/cart/)
-        @@items.each do |item|
+        @@cart.each do |item|
           resp.write "#{item}\n"
         end
+    elsif req.path.match(/add/)
+
     elsif req.path.match(/search/)
       search_term = req.params["q"]
       resp.write handle_search(search_term)
